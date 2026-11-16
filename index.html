@@ -3084,9 +3084,10 @@ function bif3SVG() {
 }
 function inset3SVG() {
   var yr = yrNow(), pn = pane([0, 800], [-0.5, 10.5], FL.box), b = pn.box, cid = 'pl-ci3', g = '', te = Math.min(yr, SIM.tEnd);
-  g += '<svg viewBox="0 0 ' + FL.w + ' ' + FL.h + '" role="img" aria-label="' + esc('Graph of the population P against time t in years, from 0 to 800. The population declines slowly from 8.87 while the harvest rises, then falls steeply to 0 just after year 750, when the harvest passes 2.5. Drawn up to year ' + Math.round(yr) + '.') + '"><defs>' + clipDef(cid, b) + '</defs>';
+  g += '<svg viewBox="0 0 ' + FL.w + ' ' + FL.h + '" role="img" aria-label="' + esc('Graph of the population P against time t in years, from 0 to 800. The population declines slowly from 8.87 while the harvest rises, then falls steeply to 0 in year 788. The harvest passes 2.5 in year 750, so the collapse comes 38 years after the threshold. Drawn up to year ' + Math.round(yr) + '.') + '"><defs>' + clipDef(cid, b) + '</defs>';
   g += axesSVG(pn, { xt: [0, 200, 400, 600, 800], yt: [0, 2, 4, 6, 8, 10], xTitle: 't, years', yTitle: 'P, the population' });
-  g += '<line x1="' + pn.X(750) + '" y1="' + b.t + '" x2="' + pn.X(750) + '" y2="' + b.b + '" style="stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 5"/>' + txt(pn.X(750) - 6, b.t + 14, svgMath('H = 2.5'), 'ttl', 'end');
+  g += '<line x1="' + pn.X(750) + '" y1="' + b.t + '" x2="' + pn.X(750) + '" y2="' + b.b + '" style="stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 5"/>' + txt(pn.X(750) - 6, b.t + 14, svgMath('dashed: H = 2.5, year 750'), 'ttl', 'end');
+  g += '<line x1="' + pn.X(SIM.tEnd) + '" y1="' + b.t + '" x2="' + pn.X(SIM.tEnd) + '" y2="' + b.b + '" style="stroke:var(--muted);stroke-width:1.5;stroke-dasharray:2 4"/>' + txt(pn.X(750) - 6, pn.Y(1.2), svgMath('dotted: P = 0, year ' + Math.round(SIM.tEnd)), 'ttl', 'end');
   var d = '', n = Math.max(2, Math.round(te / 2)); for (var i = 0; i <= n; i++) { var t = te * i / n; d += (i ? 'L' : 'M') + pn.X(t).toFixed(1) + ',' + pn.Y(simP(t)).toFixed(1); }
   g += '<g clip-path="url(#' + cid + ')"><path class="pl-inset" d="' + d + '" style="fill:none;stroke:var(--outside);stroke-width:2.8"/></g>';
   g += '<circle cx="' + pn.X(te).toFixed(1) + '" cy="' + pn.Y(simP(yr)).toFixed(1) + '" r="5.5" style="fill:var(--outside);stroke:var(--bg);stroke-width:1.5"/>';
